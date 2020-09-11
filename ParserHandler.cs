@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using antlr_parser.Antlr4Impl.Go;
 using antlr_parser.Antlr4Impl.Java;
 
 namespace antlr_parser
@@ -10,14 +11,14 @@ namespace antlr_parser
         public static readonly HashSet<string> SupportedParsableFiles =
             new HashSet<string>
             {
-                ".java", ".cs", ".h", ".hxx", ".hpp", ".cpp", ".c", ".cc", ".m", ".py", ".py3"
+                ".java", ".cs", ".h", ".hxx", ".hpp", ".cpp", ".c", ".cc", ".m", ".py", ".py3", ".go"
             };
 
         public static readonly HashSet<string> ReadableFiles =
             new HashSet<string>
             {
                 // parsable (see above)
-                ".java", ".cs", ".h", ".hxx", ".hpp", ".cpp", ".c", ".cc", ".m", ".py", ".py3",
+                ".java", ".cs", ".h", ".hxx", ".hpp", ".cpp", ".c", ".cc", ".m", ".py", ".py3", ".go",
                 // languages to be parsed in the future
                 ".js", ".jsx", ".kt", ".sc", ".sol", ".rs",
                 // data formats
@@ -51,6 +52,10 @@ namespace antlr_parser
                 case ".py3":
                     // python
                     return new List<ClassInfo>();
+                case ".go":
+                    return AntlrParseGo.OuterClassInfosFromGoSource(
+                        sourceText, 
+                        filePath);
             }
 
             return null;
